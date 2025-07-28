@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin       # Логин администратора
+      POSTGRES_PASSWORD: admin   # Пароль администратора
+      POSTGRES_DB: landing   # Создаваемая БД
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d landing"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'     # Не более 100% CPU
+          memory: 512M    # Лимит оперативной памяти
+    ports:
+      - "5432:5432"       # Проброс порта (host:container)
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Сохранение данных
+
+volumes:
+  postgres_data:  # Именованный том для данных PostgreSQL
