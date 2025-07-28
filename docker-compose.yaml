@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_USER: admin       # Логин администратора
       POSTGRES_PASSWORD: admin   # Пароль администратора
-      POSTGRES_DB: landing   # Создаваемая БД
+      POSTGRES_DB: landing       # Создаваемая БД
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U admin -d landing"]
       interval: 10s
